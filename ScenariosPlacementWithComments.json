@@ -1,0 +1,23 @@
+
+{
+    "scenarios": [
+        {   
+            "name": "Scenario 1", 
+            // 使用的地图名
+            "map": "Town10", 
+            // 场景的细致描述，突出表示车辆道路的状况，如前方接近路口，前方弯道，前方有停车位，
+            // 如果对车道有限制，也需要说明在靠左边车道还是右边车道。
+            // 描述ego和npc车辆的行为，如加速，减速，停车等待，左右变道。
+            // 描述行人的行进目标，走到路口，等待，过马路
+            "description": "The ego vehicle is approaching an intersection approximately 200 meters ahead. On the right side of the road, a group of pedestrians in the plaza are successively heading toward the crosswalk at the traffic light. As the ego vehicle continues straight toward the intersection, it comes to a stop and waits for the pedestrian flow to pass through the crosswalk before proceeding across the intersection.",
+            "placement": {
+                "ego_vehicle":{"spawn_point":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0}},
+                "npc_vehicle1":{"spawn_point":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0}},
+                "npc_vehicle2":{"spawn_point":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0}},
+                "pedestrian1":{"spawn_point":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0},"target1":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0}},
+                "pedestrian2":{"spawn_point":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0},"target1":{"x":0,"y":0,"z":0,"pitch":0,"yaw":0,"roll":0}}
+            }
+        }
+    ]
+}
+

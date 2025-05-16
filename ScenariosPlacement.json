@@ -1,0 +1,19 @@
+
+{
+    "scenarios": [
+        {   
+            "name": "Scenario 1", 
+            "map": "Town10", 
+            "description": "The ego vehicle is approaching an intersection approximately 200 meters ahead. On the right side of the road, a group of pedestrians in the plaza are successively heading toward the crosswalk at the traffic light. As the ego vehicle continues straight toward the intersection, it comes to a stop and waits for the pedestrian flow to pass through the crosswalk before proceeding across the intersection.",
+            "placement": [
+                {"name":"ego_vehicle","spawn_point":{"x":5820.0,"y":-6780.0,"z":20,"pitch":0,"yaw":180.0,"roll":0}},
+                {"name":"npc_vehicle1","spawn_point":{"x":5820.0,"y":-6420.0,"z":20,"pitch":0,"yaw":180.0,"roll":0}},
+                {"name":"npc_vehicle2","spawn_point":{"x":6720.0,"y":-6420.0,"z":20,"pitch":0,"yaw":180.0,"roll":0}},
+                {"name":"pedestrian1","spawn_point":{"x":-1870.0,"y":-8420.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]},
+                {"name":"pedestrian2","spawn_point":{"x":-1200.0,"y":-8160.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]},
+                {"name":"pedestrian3","spawn_point":{"x":3190.0,"y":-7430.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]}
+            ]
+        }
+    ]
+}
+

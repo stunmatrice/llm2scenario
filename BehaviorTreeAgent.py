@@ -59,19 +59,27 @@ class PathFollowBehavior(py_trees.behaviour.Behaviour):
         
     def update(self):
         if self._first_update:
-            method = getattr(self._agent, self.function_name, None)
-            method(*self._args)
+            method = getattr(self._agent, self._function_name, None)
+            method(**self._args)
             self._first_update = False
-        if self._local_planner.done():
+        if self._agent.get_local_planner().done():
             return py_trees.common.Status.SUCCESS
         return py_trees.common.Status.RUNNING
     
     
 class BehaviorTreeAgent(BasicAgent):
-    def __init__(self, vehicle, target_speed=20, opt_dict={'_ignore_vehicles': True}, map_inst=None, grp_inst=None, behaviour_description=None):
+    def __init__(self, 
+                 vehicle, 
+                 target_speed=20, 
+                 opt_dict={'_ignore_vehicles': True}, 
+                 map_inst=None, 
+                 grp_inst=None, 
+                 behaviour_description=None, 
+                 target_locations=None):
         super().__init__(vehicle, target_speed, opt_dict, map_inst, grp_inst)
         ## .. 
         self._behavior_description = behaviour_description
+        self._target_locations = target_locations
         self._behavior_tree = None
         self.construct_behavior_tree()
 
@@ -81,93 +89,163 @@ class BehaviorTreeAgent(BasicAgent):
         
     def construct_behavior_tree(self):
         behaviour_description = self._behavior_description
-        prompt = """The following text describes the driving behavior of a vehicle. 
-                Please understand the vehicle's driving behavior and convert it into the form of a JSON document.
+        # if self._target_locations is not None:
+        #     prompt = """The following text describes the driving behavior of a vehicle. 
+        #             Please understand the vehicle's driving behavior and convert it into the form of a JSON document.
+        #             Driving behavior of the vehicle is : {behaviour_description}
+                    
+        #             Please note: only the following function_name are allowed.
+        #             {tools_string}
+        #             The args represents the corresponding parameters of the function you choose.
+        #             Output only the final JSON object in the correct structure. Do not include any additional text or explanation.
+        #             Please refer to the example below for guidance.
+        #             {example_input}
+        #             Please note sequence name function_name args must be strictly included in your output JSON object. 
+        #             """
+        #     example_dict = {
+        #                 "sequence": [
+        #                     {
+        #                         "name": "go_to_target_0",
+        #                         "function_name": "go_to_location",
+        #                         "args": {"target_speed":20.0, "location_index":0}
+        #                     },
+        #                     {
+        #                         "name": "go_to_target_1",
+        #                         "function_name": "go_to_location",
+        #                         "args": {"target_speed":20.0, "location_index":1}
+        #                     },
+        #                     {
+        #                         "name": "GoStraight",
+        #                         "duration": 4.0,
+        #                         "function_name": "keep_in_lane",
+        #                         "args": {"target_speed":20.0, "duration":4.0}
+        #                     },
+        #                     {
+        #                         "name": "StopForTime",
+        #                         "duration": 2.0,
+        #                         "function_name": "stop_for_time",
+        #                         "args": {"duration":5.0}
+        #                     }
+        #                 ]
+        #             }
+
+        #     example_str = json.dumps(example_dict, indent=4)
+
+        #     #tools = [self.accelerate_to_speed, self.deccelerate_to_speed, self.keep_in_lane,self.change_lane_left, self.change_lane_right, self.stop_for_time]
+        #     tools_string = """
+        #                     go_to_location - Use this method to go to a target location with a target speed.
+        #                     """
+        # else:
+
+        prompt = """
+                The following text describes the driving behavior of a vehicle. 
+                The args represents the corresponding parameters of the function you choose.
+                Please refer to the example below for guidance, Dont just copy the example.
+                {example_input}
                 Driving behavior of the vehicle is : {behaviour_description}
-                
+                Please understand the vehicle's driving behavior and convert it into the form of a JSON document.
                 Please note: only the following function_name are allowed.
                 {tools_string}
-                The args represents the corresponding parameters of the function you choose.
                 Output only the final JSON object in the correct structure. Do not include any additional text or explanation.
-                Please refer to the example below for guidance.
-                {example_input}
-                All fields shown in the example must be strictly included in your output JSON object.
                 """
+        
         example_dict = {
-                    "sequence": [
-                        {
-                            "name": "WaitingForStart",
-                            "duration": 2.0,
-                            "function_name": "stop_for_time",
-                            "args": {"duration":5.0}
-                        },
-                        {
-                            "name": "AccelerateToSpeed",
-                            "duration": 3.0,
-                            "function_name": "accelerate_to_speed",
-                            "args": {"target_speed":20.0, "duration":3.0}
-                        },
-                        {
-                            "name": "GoStraight",
-                            "duration": 4.0,
-                            "function_name": "keep_in_lane",
-                            "args": {"target_speed":20.0, "duration":4.0}
-                        },
-                        {
-                            "name": "StopForTime",
-                            "duration": 3.0,
-                            "function_name": "stop_for_time",
-                            "args": {"duration":5.0}
-                        },
-                        {
-                            "name": "GoStraight",
-                            "duration": 5.0,
-                            "function_name": "keep_in_lane",
-                            "args": {"target_speed":20.0, "duration":5.0}
-                        }
-                    ]
+            "behavior_description": "accelerate to 20km/h in 2s, keep in lane for 2s, decelerate to 0km/h in 1s, wait for 3s, go to target0 with speed of 20km/h",
+            "sequence": [
+                {
+                    "name": "AccelerateToSpeed",
+                    "duration": 2.0,
+                    "function_name": "accelerate_to_speed",
+                    "args": {"target_speed":20.0, "duration":2.0}
+                },
+                {
+                    "name": "GoStraight",
+                    "duration": 2.0,
+                    "function_name": "keep_in_lane",
+                    "args": {"target_speed":20.0, "duration":2.0}
+                },
+                {
+                    "name": "DecelerateToSpeed",
+                    "duration": 1.0,
+                    "function_name": "deccelerate_to_speed",
+                    "args": {"target_speed":0.0, "duration":1.0}
+                },
+                {
+                    "name": "Stop3s",
+                    "duration": 3.0,
+                    "function_name": "stop_for_time",
+                    "args": { "duration":3.0}
+                },
+                {
+                    "name": "GotoTarget0",
+                    "function_name": "go_to_location",
+                    "args": {"target_speed":20.0, "location_index":0}
                 }
-        example_str = json.dumps(example_dict, indent=4)
+            ]
+        }
 
+        
+        example_str = json.dumps(example_dict, indent=4)
         #tools = [self.accelerate_to_speed, self.deccelerate_to_speed, self.keep_in_lane,self.change_lane_left, self.change_lane_right, self.stop_for_time]
         tools_string = """accelerate_to_speed - Use this method to accelerate to a target speed for a certain duration.
-                          deccelerate_to_speed - Use this method to deccelerate to a target speed for a certain duration.
-                          keep_in_lane - Use this method to keep the vehicle in lane for a certain duration.
-                          change_lane_left - Use this method to change lane to the left for a certain duration.
-                          change_lane_right - Use this method to change lane to the right for a certain duration.
-                          stop_for_time - Use this method to stop the vehicle for a certain duration.
+                        deccelerate_to_speed - Use this method to deccelerate to a target speed for a certain duration.
+                        keep_in_lane - Use this method to keep the vehicle in lane for a certain duration.
+                        change_lane_left - Use this method to change lane to the left for a certain duration.
+                        change_lane_right - Use this method to change lane to the right for a certain duration.
+                        stop_for_time - Use this method to stop the vehicle for a certain duration.
+                        go_to_location - Use this method to go to a target location with a target speed.
                         """
         
         prompt = PromptTemplate.from_template(prompt)
         parser = JsonOutputParser()
         chain = prompt | model | parser
 
+        res = chain.invoke({"behaviour_description": behaviour_description, 
+                            "tools_string":tools_string, 
+                            "example_input":example_str})
 
-        res = chain.invoke({"behaviour_description": behaviour_description, "tools_string":tools_string, "example_input":example_str})
-
-        # print(res)
+        print("agent_plan:", res)
 
         root_node_name = "root"
         behaviours = res['sequence']
 
         root_node = py_trees.composites.Sequence(root_node_name, memory=True)
 
-        child_node = TimeControlBehaviour("wait_for_start", self, duration=3.0, function_name="stop_for_time", args={"duration":3.0})
+        child_node = TimeControlBehaviour("wait_for_start", 
+                                          self, 
+                                          duration=3.0, 
+                                          function_name="stop_for_time", 
+                                          args={"duration":3.0})
+
         root_node.add_child(child_node)
         for behaviour in behaviours:
             behaviour_name = behaviour['name']
-            duration = behaviour['duration']
+            
             function_name = behaviour['function_name']
             args = behaviour['args']
-            child_node = TimeControlBehaviour(behaviour_name, self, duration=duration, function_name=function_name, args=args)
+            child_node = None
+            if function_name == "go_to_location":
+                child_node = PathFollowBehavior(behaviour_name, self, function_name=function_name, args=args)
+            else:
+                #duration = behaviour['duration']
+                child_node = TimeControlBehaviour(behaviour_name, self, duration=1.0, function_name=function_name, args=args)
+            
             root_node.add_child(child_node)
         self._behavior_tree = py_trees.trees.BehaviourTree(root_node)
+        print("Behavior tree constructed successfully.", self._behavior_tree)
         
     def run_step(self):
+        #print("run_step")
         self._behavior_tree.tick()
         control = self._local_planner.run_step()
         self._vehicle.apply_control(control)
 
+    def go_to_location(self, target_speed=20.0, location_index=0):
+        """Use this method to go to a target location with a target speed."""
+        #start_loc = self._vehicle.get_transform().location
+        end_loc = self._target_locations[location_index]
+        self.set_destination(end_loc)
+        self.set_target_speed(target_speed)
     ## Tools for behavior tree to call once
     def accelerate_to_speed(self, target_speed=20.0, duration=5.0):
         """Use this method to accelerate to a target speed for a certain duration."""
@@ -267,7 +345,7 @@ class PedestrianAgent():
                     {example_input}
                     The args represents the corresponding parameters of the function you choose.
                     Output only the final JSON object in the correct structure. Do not include any additional text or explanation.
-                    All fields shown in the example must be strictly included in your output JSON object.
+                    Please note sequence name duration function_name args must be strictly included in your output JSON object. 
                  """
         tools_string = """go_to_target - Use this method to go to a target location for a certain duration.
                           stop_for_time - Use this method to stop for a certain duration.

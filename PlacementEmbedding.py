@@ -27,9 +27,18 @@ def load_placement_file(file_name='ScenariosPlacement.json'):
     with open(file_path, 'r', encoding='utf-8') as file:
         try:
             data = json.load(file)
-            return data['scenarios'][0]
+            return data['scenarios'][1]
         except json.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
             return
 
+
+def load_placement_file2(file_path ="D:\data_set\Scenario.jsonl"):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        try:
+            data = json.load(file)
+            return data
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return
 # load_file_to_chroma('ScenariosPlacement.json')

@@ -11,7 +11,92 @@
                 {"name":"npc_vehicle2","spawn_point":{"x":6720.0,"y":-6420.0,"z":20,"pitch":0,"yaw":180.0,"roll":0}},
                 {"name":"pedestrian1","spawn_point":{"x":-1870.0,"y":-8420.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]},
                 {"name":"pedestrian2","spawn_point":{"x":-1200.0,"y":-8160.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]},
-                {"name":"pedestrian3","spawn_point":{"x":3190.0,"y":-7430.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]}
+                {"name":"pedestrian3","spawn_point":{"x":3190.0,"y":-7430.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]},
+                {"name":"pedestrian4","spawn_point":{"x":-880.0,"y":-9720.0,"z":20,"pitch":0,"yaw":90,"roll":0},"target":[{"x":-3370.0,"y":-7640.0,"z":20,"pitch":0,"yaw":0,"roll":0}, {"x":-3330.0, "y":-4930.0,"z":20,"pitch":0,"yaw":0,"roll":0}]}
+            ]
+        },
+        {
+            "name": "Scenario 2",
+            "map": "Town06",
+            "description": "The ego vehicle is going to change lane to the left and prepare to merge into the ramp.",
+            "placement":[
+                {"name":"ego_vehicle",
+                "spawn_point":{"x":38400.0,"y":14110.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[
+                    {"x":39570.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":43920.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                ]
+                },
+                {"name":"npc_vehicle1",
+                "spawn_point":{"x":36980.0,"y":13810.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[{"x":39570.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":43920.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                ]
+                },
+                {"name":"npc_vehicle2",
+                "spawn_point":{"x":37050.0,"y":15090.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                },
+                {"name":"npc_vehicle3",
+                "spawn_point":{"x":39650.0,"y":14790.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                },
+                {"name":"npc_vehicle4",
+                "spawn_point":{"x":40525.0,"y":13770.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}]
+                },
+                {"name":"npc_vehicle5",
+                "spawn_point":{"x":40525.0,"y":14430.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                },
+                {"name":"npc_vehicle6",
+                "spawn_point":{"x":41325.0,"y":14830.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                },
+                {"name":"npc_vehicle7",
+                "spawn_point":{"x":42265.0,"y":14130.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                },
+                {"name":"npc_vehicle8",
+                "spawn_point":{"x":43255.0,"y":13750.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}]
+                },
+                {"name":"npc_vehicle9",
+                "spawn_point":{"x":45015.0,"y":14480.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                } 
+            ]
+        },
+        {
+            "name": "Scenario 2",
+            "map": "Town06",
+            "description": "The ego vehicle is going to change lane to the left and prepare to merge into the ramp.",
+            "placement":[
+                {"name":"ego_vehicle",
+                "spawn_point":{"x":38400.0,"y":14110.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[
+                    {"x":39570.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":43920.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                ]
+                },
+                {"name":"npc_vehicle1",
+                "spawn_point":{"x":36980.0,"y":13810.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                "target":[{"x":39570.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":43920.0,"y":13780.0,"z":20,"pitch":0,"yaw":0,"roll":0},
+                    {"x":47610.0,"y":13440.0,"z":20,"pitch":0,"yaw":-20.0,"roll":0},
+                    {"x":50739.0,"y":9749.0,"z":20,"pitch":0,"yaw":-66.0,"roll":0},
+                    {"x":54913.0,"y":5270.0,"z":20,"pitch":0,"yaw":0,"roll":0}
+                ]
+                }
             ]
         }
     ]

@@ -7,7 +7,8 @@ import openai
 from langchain_core.language_models.llms import LLM
 
 # 或者通过创建OpenAI客户端对象时设置API密钥 
-client = openai.OpenAI(api_key='123456',base_url='http://127.0.0.1:23333/v1')
+base_url = 'http://162.105.90.212:3003/v1' #'http://127.0.0.1:23333/v1'
+client = openai.OpenAI(api_key='123456',base_url=base_url)
 
 class InternLM3(LLM): 
     # def __init__(self, model, messages): 

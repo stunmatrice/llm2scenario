@@ -732,12 +732,12 @@ def game_loop(args):
 
             # traffic_manager.set_synchronous_mode(True)
 
-        # display = pygame.display.set_mode(
-        #     (args.width, args.height),
-        #     pygame.HWSURFACE | pygame.DOUBLEBUF)
         display = pygame.display.set_mode(
             (args.width, args.height),
-            pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.FULLSCREEN)
+            pygame.HWSURFACE | pygame.DOUBLEBUF)
+        # display = pygame.display.set_mode(
+        #     (args.width, args.height),
+        #     pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.FULLSCREEN)
 
 
         hud = HUD(args.width, args.height)
@@ -746,23 +746,50 @@ def game_loop(args):
       
         
         ## 用户输入，来自于GUI输入框
-        scenario_description = """The ego vehicle accelerates to 20km/h in 2s, 
-                            then go straight in 25km/h for 8s, then decelerates to 0km upon approach in 2s, 
-                            and waits for 10 seconds, Then accelerates to 20km/h in 2s, then go straight for 5s, 
-. 
-                            npc vehicles 1 is  accelerating to 25km/h in 2s, then go straight in 25km/h for 6s, 
-                            then decelerates to 0km upon approach in 2s, and waits for 10 seconds until the pedestrians have passed.
+#         behavior_description = """
+#                             The ego vehicle accelerates to 20km/h in 2s, 
+#                             then go straight in 25km/h for 9s, then decelerates to 0km upon approach in 2s, 
+#                             and waits for 10 seconds, Then accelerates to 20km/h in 2s, then go straight for 15s, 
+# . 
+#                             npc vehicles 1 is  accelerating to 25km/h in 2s, then go straight in 25km/h for 8s, 
+#                             then decelerates to 0km upon approach in 2s, and waits for 10 seconds until the pedestrians have passed,
+#                             Then accelerates to 20km/h in 2s, then go straight for 15s.
                             
-                            pedestrian 1 is walking at 1.0m/s in 3s to target 0, then stop for 12s, then walk to target 1 at 1.5m/s in 10s,
-                            pedestrian 2 is walking at 1.0m/s in 5s to target 0, then stop for 5s, then walk to target 1 at 1.5m/s in 8s,
-                            pedestrian 3 stops for 20s.
+#                             pedestrian 1 is walking at 0.1m/s in 3s to target 0, then stop for 12s, then walk to target 1 at 0.1m/s in 10s,
+#                             pedestrian 2 is walking at 0.1m/s in 5s to target 0, then stop for 10s, then walk to target 1 at 0.1m/s in 8s,
+#                             pedestrian 3 is walking at 0.1m/s in 5s to target 0, then stop for 10s, then walk to target 1 at 0.1m/s in 8s.
+#                             pedestrian 4 is walking at 0.1m/s in 5s to target 0, then stop for 10s, then walk to target 1 at 0.1m/s in 8s.
+#                             """
+        
+        
+        # For search
+        scenario_description = """
+                            The ego vehicle is going to change lane to the left,then merge to the ramp.
+                            """
+        # For generate behavior tree
+        # behavior_description = """
+        #                     The ego vehicle goes to target0,then target1, then target2, then target3, then target4 with speed of 20 km/h,
+        #                     npc vehicles 1 goes to target0,then target1, then target2, then target3, then target4 with speed of 20 km/h, 
+        #                     npc vehicles 2 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s,
+        #                     npc vehicles 3 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s,
+        #                     npc vehicles 4 goes to target0,then target1, then target2 with speed of 20 km/h,
+        #                     npc vehicles 5 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s,
+        #                     npc vehicles 6 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s,
+        #                     npc vehicles 7 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s,
+        #                     npc vehicles 8 goes to target0,then target1, then target2 with speed of 20 km/h,
+        #                     npc vehicles 9 accelerates to 20km/h in 2s, then keep in lane in 20km/h for 20s.
+        #                     """
+
+        behavior_description = """
+                            The ego vehicle goes to target0, then target1, then target2, then target3, then target4, with speed of 20 km/h,
+                            npc vehicles 1 goes to target0,then target1, then target2, then target3, then target4, with speed of 20 km/h.
                             """
         
-
+        
         ## 场景搜索，从向量数据库搜索一个最为匹配的场景Placement，用于初始化场景
 
         scenario_description_dict = PlacementEmbedding.load_placement_file('ScenariosPlacement.json')
-        trafficScenario = TrafficScenario(client, world, scenario_description_dict, scenario_description)
+        trafficScenario = TrafficScenario(client, world, scenario_description_dict, behavior_description)
 
         ### --------------------------------------------------------
 
@@ -819,12 +846,12 @@ def main():
     argparser.add_argument(
         '--host',
         metavar='H',
-        default='162.105.90.212',
+        default='127.0.0.1',
         help='IP of the host server (default: 127.0.0.1)')
     argparser.add_argument(
         '-p', '--port',
         metavar='P',
-        default=3000,
+        default=2000,
         type=int,
         help='TCP port to listen to (default: 2000)')
     argparser.add_argument(
